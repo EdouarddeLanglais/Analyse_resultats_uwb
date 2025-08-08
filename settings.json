@@ -1,11 +1,24 @@
 {
-    "results_path" : "/Results/",
+    "mode" : "receiver",
+    "results_path" : "Results",
     "measurement_time" : 3, 
-    "receiver": {
+
+    "com_settings" : {
+        "channel" : 5,
+        "prf" : "BPRF5",
+        "preamble_code" : 10,
+        "ranging_slot_duration" : 2400,
+        "ranging_block" : 200,
+        "round_duration" : 25,
+        "ranging_type" : "DSTWR"
+    },
+    
+    "receiver_calibration": {
         "ch5_antenna_delay" : "0x00003ff6",
         "ch9_antenna_delay" : "0x00003fff"
     },
-    "transmitter": {
+
+    "initiator_calibration": {
         "ch5_antenna_delay" : "0x00003ff6",
         "ch9_antenna_delay" : "0x00003fff"
     }

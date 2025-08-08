@@ -1,0 +1,12 @@
+{
+    "results_path" : "/Results/",
+    "measurement_time" : 3, 
+    "receiver": {
+        "ch5_antenna_delay" : "0x00003ff6",
+        "ch9_antenna_delay" : "0x00003fff"
+    },
+    "transmitter": {
+        "ch5_antenna_delay" : "0x00003ff6",
+        "ch9_antenna_delay" : "0x00003fff"
+    }
+}

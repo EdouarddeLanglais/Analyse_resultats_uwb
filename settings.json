@@ -1,7 +1,7 @@
 {
     "mode" : "receiver",
     "results_path" : "Results",
-    "measurement_time" : 3, 
+    "measurement_time" : 180, 
 
     "com_settings" : {
         "channel" : 5,

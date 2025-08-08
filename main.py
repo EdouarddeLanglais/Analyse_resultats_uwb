@@ -22,14 +22,16 @@ ser = serial.Serial('/dev/ttyACM0', 115200)
 ser.write(b"STOP\n")
 time.sleep(0.1)
 
-# Calibration Setup
+# Setup
 if mode == "receiver":
     calibration_string1 = "CALKEY ant0.ch5.ant_delay " + settings['receiver_calibration']['ch5_antenna_delay'] + "\n"
     calibration_string2 = "CALKEY ant0.ch9.ant_delay " + settings['receiver_calibration']['ch9_antenna_delay'] + "\n"
+    com_mode = "RESPF"
 
 elif mode == "initiator":
     calibration_string1 = "CALKEY ant0.ch5.ant_delay " + settings['initiator_calibration']['ch5_antenna_delay'] + "\n"
     calibration_string2 = "CALKEY ant0.ch9.ant_delay " + settings['initiator_calibration']['ch9_antenna_delay'] + "\n"
+    com_mode = "INITF"
 
 else:
     raise Exception("Error, unknown mode in settings.json, only 'receiver' and 'initiator' are authorized")
@@ -47,10 +49,30 @@ length = len(to_search)
 results = []
 timestamps = []
 
-# Read UWB transmissions
+# Start ranging
 ser.write(b"STOP\n")
 time.sleep(0.1)
-ser.write(b"RESPF CHAN=5 PRFSET=BPRF5 BLOCK=300\n")
+
+com_settings = settings['com_settings']
+
+com_channel = "CHAN="+str(com_settings['channel'])              # UWB channel
+com_prf = "PRFSET="+com_settings['prf']                         # Pulse Repetition Frequency set
+com_pcode = "PCODE="+str(com_settings['preamble_code'])         # Preable Code Index
+com_slot = "SLOT="+str(com_settings['ranging_slot_duration'])   # Ranging slot duration in RSTU, 1ms = 1200 RSTU
+com_block = "BLOCK="+str(com_settings['ranging_block'])         # Ranging block duration
+com_round = "ROUND="+str(com_settings['round_duration'])        # Number of ranging operation in one slot
+com_ranging_type = "RRU="+com_settings['ranging_type']          # Ranging type preferred
+
+com_line = com_mode+" "+com_channel+" "+com_prf+" "+com_pcode+" "+com_slot+" "+com_block+" "+com_round+" "+com_ranging_type+"\n"
+
+ser.write(com_line.encode('ascii'))
+time.sleep(0.1)
+ser.write(b"STOP\n")
+time.sleep(0.1)
+ser.write(b"SAVE\n")
+time.sleep(0.1)
+ser.write(com_line.encode('ascii'))
+
 start_measuring = time.perf_counter()
 timestamp = 0
 

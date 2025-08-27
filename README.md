@@ -1,0 +1,1 @@
+Small script to use the Qorvo DWM3001CDK Command Line interface and play around ranging with easy settings configuration. All the user has to do is to edit the settings.json and used COM port, then run main.py. If the devkit is not responding Run stop.py then main.py.
